@@ -1,0 +1,24 @@
+name: Harness
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate-harness:
+    name: Validate Harness
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate repository harness
+        shell: bash
+        run: |
+          bash scripts/check-harness.sh
