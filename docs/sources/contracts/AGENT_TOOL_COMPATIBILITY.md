@@ -32,6 +32,10 @@ provider model, permission setting, or automatic role translation is configured.
   `disable-model-invocation` setting permits model invocation; the adapter's
   `@../../../.agents/skills/software-engineering/SKILL.md` import keeps the
   canonical content in the shared directory.
+- The same documented Claude import mechanism applies to every direct
+  `.agents/skills/<name>/SKILL.md`. `scripts/sync-portable-skills.sh` derives a
+  deterministic wrapper for each canonical skill; the other five providers use
+  their documented native `.agents/skills/` discovery.
 - Gemini CLI automatically discovers the canonical skill through its native
   `.agents/skills/` alias. Discovery and default enablement do not bypass the
   user's consent: Gemini asks for it every time a skill is activated.

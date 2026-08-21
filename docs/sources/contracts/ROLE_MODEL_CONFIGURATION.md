@@ -7,7 +7,7 @@ guessing provider syntax.
 
 Status: VERIFIED
 
-Date verified: 2026-08-20
+Date verified: 2026-08-21
 
 ## Codex / OpenAI
 
@@ -37,11 +37,26 @@ Date verified: 2026-08-20
 ## Cursor
 
 - [Cursor subagents](https://cursor.com/docs/subagents) accepts `model` as an
-  exact ID. Model parameters use `model-id[effort=value]`; its current example
-  explicitly shows `claude-opus-5[effort=high]`.
-- [Models and pricing](https://cursor.com/docs/models-and-pricing) currently
-  lists Claude Opus 5, Sonnet 5, GPT-5.6 Sol/Terra/Luna, Gemini 3.1 Pro, and
-  Gemini 3.7 Flash. Admin and plan restrictions may force a fallback.
+  exact ID. Parameters use `model-id[id=value]` pairs; documented examples
+  include `claude-opus-5[effort=high]`, `composer-2.5[fast=false]`, and
+  combined options such as `effort=high,context=300k`. Empty `composer-2.5[]`
+  selects the standard (non-fast) variant. Bracket syntax applies in project
+  agent frontmatter; the Task tool's inline model list may expose only one
+  variant per family.
+- [Grok 4.6](https://cursor.com/docs/models/grok-4-6) is the first-party
+  general/reasoning model. Documented effort values are `low`, `medium`,
+  `high` (named-model default), and `xhigh`. Fast is the default speed tier on
+  Pro and higher; the Start plan fixes Grok at medium effort and standard
+  speed. ID used here: `grok-4.6`.
+- [Composer 2.5](https://cursor.com/blog/composer-2-5) is the first-party
+  coding model. Fast is the product default; this starter pins
+  `composer-2.5[fast=true]` for exploration and `composer-2.5[fast=false]` for
+  implementation. Composer effort is UNKNOWN / NOT DOCUMENTED in subagent
+  frontmatter, so this profile does not invent an `effort` field for it.
+- [Models and pricing](https://cursor.com/docs/models-and-pricing) places Grok
+  4.6 and Composer 2.5 in the Cursor Models pool. Third-party IDs (Claude,
+  GPT-5.6, Gemini) remain available but draw from the Other Models pool.
+  Admin and plan restrictions may force a fallback.
 
 ## Gemini CLI
 

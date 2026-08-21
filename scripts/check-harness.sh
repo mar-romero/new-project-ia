@@ -6,6 +6,31 @@ script_dir="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(CDPATH= cd -- "$script_dir/.." && pwd)"
 cd -- "$repo_root"
 
+# Locate a Python interpreter that actually works. On Windows the Microsoft
+# Store "python" alias can shadow a real install and exit non-zero; prefer an
+# explicit PYTHON override, then a working python, then the "py" launcher, then
+# python3. These scripts require Python 3.11+ (tomllib).
+resolve_python() {
+  if [[ -n "${PYTHON:-}" ]]; then
+    printf '%s\n' "$PYTHON"
+    return 0
+  fi
+  if command -v python >/dev/null 2>&1 && python -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)' >/dev/null 2>&1; then
+    printf '%s\n' "python"
+    return 0
+  fi
+  if command -v py >/dev/null 2>&1 && py -3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)' >/dev/null 2>&1; then
+    printf '%s\n' "py -3"
+    return 0
+  fi
+  if command -v python3 >/dev/null 2>&1 && python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)' >/dev/null 2>&1; then
+    printf '%s\n' "python3"
+    return 0
+  fi
+  printf '%s\n' "python"
+}
+PY="$(resolve_python)"
+
 echo "Checking project starter harness..."
 
 required_files=(
@@ -44,6 +69,8 @@ required_files=(
   "specs/T-0005-native-agent-parity.md"
   "specs/T-0006-six-tool-harness-guide.md"
   "specs/T-0007-provider-model-routing.md"
+  "specs/T-0008-portable-skill-authoring.md"
+  "scripts/sync-portable-skills.sh"
   "tests/README.md"
 )
 
@@ -106,6 +133,7 @@ required_skills=(
   "task-intake"
   "test-strategy"
   "work-unit-commits"
+  "portable-skill-authoring"
 )
 
 errors=0
@@ -179,7 +207,7 @@ require_description() {
 }
 
 validate_markdown_frontmatter() {
-  if ! python - <<'PY'
+  if ! $PY - <<'PY'
 import os
 import re
 from pathlib import Path
@@ -192,22 +220,6 @@ ROLES = (
     "test-auditor",
     "security-reviewer",
     "docs-researcher",
-)
-SKILLS = (
-    "architecture-decision",
-    "chained-work",
-    "cognitive-doc-design",
-    "decision-escalation",
-    "github-issue",
-    "implementation-loop",
-    "independent-review",
-    "source-research",
-    "software-engineering",
-    "systemic-defect-triage",
-    "task-close",
-    "task-intake",
-    "test-strategy",
-    "work-unit-commits",
 )
 DESCRIPTIONS = {
     "explorer": "Explore the repository read-only to map relevant files, flows, checks, and risks.",
@@ -233,13 +245,13 @@ CLAUDE_PROFILE = {
     "test-auditor": ("sonnet", "high", "18"),
 }
 CURSOR_PROFILE = {
-    "explorer": "gpt-5.6-luna[effort=low]",
-    "docs-researcher": "gpt-5.6-terra[effort=medium]",
-    "implementer": "claude-sonnet-5[effort=high]",
-    "planner": "claude-opus-5[effort=high]",
-    "reviewer": "claude-opus-5[effort=high]",
-    "security-reviewer": "claude-opus-5[effort=high]",
-    "test-auditor": "claude-sonnet-5[effort=high]",
+    "explorer": "composer-2.5[fast=true]",
+    "docs-researcher": "grok-4.6[effort=medium,fast=false]",
+    "implementer": "composer-2.5[fast=false]",
+    "planner": "grok-4.6[effort=high,fast=false]",
+    "reviewer": "grok-4.6[effort=xhigh,fast=false]",
+    "security-reviewer": "grok-4.6[effort=xhigh,fast=false]",
+    "test-auditor": "grok-4.6[effort=high,fast=false]",
 }
 GEMINI_PROFILE = {
     "explorer": ("gemini-3-flash-preview", "0.1", "12", "5"),
@@ -251,6 +263,9 @@ GEMINI_PROFILE = {
     "test-auditor": ("gemini-3.1-pro-preview", "0.1", "18", "10"),
 }
 OPENCODE_PROFILE = {
+    # OpenCode V2: each agent pins a verified Zen model (opencode/gpt-5.6-*)
+    # with a comment showing the opencode-go alternative. The harness skips
+    # YAML comment lines (`#...`) in frontmatter so the comment is harmless.
     "explorer": ("opencode/gpt-5.6-luna", "12"),
     "docs-researcher": ("opencode/gpt-5.6-terra", "18"),
     "implementer": ("opencode/gpt-5.6-sol", "30"),
@@ -274,6 +289,30 @@ class FrontmatterError(ValueError):
     pass
 
 
+def discover_skills() -> tuple[str, ...]:
+    skills_root = Path(".agents/skills")
+    if not skills_root.is_dir():
+        raise FrontmatterError("missing canonical skills directory")
+    skills: list[str] = []
+    for entry in sorted(skills_root.iterdir()):
+        if not entry.is_dir():
+            raise FrontmatterError(f"canonical skill entry is not a directory: {entry}")
+        if entry.name.startswith("_"):
+            if (entry / "SKILL.md").exists():
+                raise FrontmatterError(
+                    f"shared support directory must not contain SKILL.md: {entry}"
+                )
+            continue
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", entry.name):
+            raise FrontmatterError(f"canonical skill directory has invalid name: {entry}")
+        if not (entry / "SKILL.md").is_file():
+            raise FrontmatterError(f"missing canonical skill file: {entry / 'SKILL.md'}")
+        skills.append(entry.name)
+    if not skills:
+        raise FrontmatterError("no canonical skills found")
+    return tuple(skills)
+
+
 def parse_frontmatter_text(
     text: str, source: str, allow_permissions: bool = False
 ) -> tuple[dict[str, str], list[str]]:
@@ -291,6 +330,8 @@ def parse_frontmatter_text(
     for line in lines[1:end]:
         if not line:
             raise FrontmatterError(f"{source}: blank frontmatter line is not allowed")
+        if line.startswith('#'):
+            continue
         if line[0].isspace():
             if not allow_permissions or current_key != "permissions":
                 raise FrontmatterError(f"{source}: unexpected indented YAML: {line}")
@@ -407,15 +448,17 @@ def check_role(role: str) -> None:
         }
 
     require_exact(Path(f".claude/agents/{role}.md"), claude)
+    opencode_expected: dict[str, str] = {
+        "description": description,
+        "mode": "subagent",
+        "steps": opencode_steps,
+        "permissions": "",
+    }
+    if opencode_model is not None:
+        opencode_expected["model"] = opencode_model
     require_exact(
         Path(f".opencode/agents/{role}.md"),
-        {
-            "description": description,
-            "mode": "subagent",
-            "model": opencode_model,
-            "steps": opencode_steps,
-            "permissions": "",
-        },
+        opencode_expected,
         permission_lines(opencode_effects),
     )
     require_exact(
@@ -468,7 +511,17 @@ def check_skill(skill: str) -> None:
         raise FrontmatterError(f"canonical skill has nested metadata: {skill}")
     if set(canonical) != {"name", "description"} or canonical["name"] != skill:
         raise FrontmatterError(f"canonical skill metadata is not exact: {skill}")
-    require_exact(Path(f".claude/skills/{skill}/SKILL.md"), canonical)
+    expected_wrapper = (
+        "---\n"
+        f"name: {canonical['name']}\n"
+        f"description: {canonical['description']}\n"
+        "---\n\n"
+        f"@../../../.agents/skills/{skill}/SKILL.md\n\n"
+        f"Canonical guidance remains in `.agents/skills/{skill}/`.\n"
+    )
+    wrapper_path = Path(f".claude/skills/{skill}/SKILL.md")
+    if wrapper_path.read_text(encoding="utf-8") != expected_wrapper:
+        raise FrontmatterError(f"Claude wrapper drift: {wrapper_path}")
 
 
 def run_self_tests() -> None:
@@ -505,7 +558,7 @@ def run_self_tests() -> None:
             "---\nname: explorer\nmodel: inherit\nreadonly: true\n---\n",
             {
                 "name": "explorer",
-                "model": "gpt-5.6-luna[effort=low]",
+                "model": "composer-2.5[fast=true]",
                 "readonly": "true",
             },
             None,
@@ -542,7 +595,7 @@ def run_self_tests() -> None:
 try:
     for role in ROLES:
         check_role(role)
-    for skill in SKILLS:
+    for skill in discover_skills():
         check_skill(skill)
     if os.environ.get("CHECK_HARNESS_SELFTEST") == "1":
         run_self_tests()
@@ -656,6 +709,11 @@ run_v2_permission_self_tests() {
 
 if [[ "${CHECK_HARNESS_SELFTEST:-0}" == "1" ]]; then
   run_v2_permission_self_tests
+  bash scripts/sync-portable-skills.sh --self-test
+fi
+
+if ! bash scripts/sync-portable-skills.sh --check; then
+  errors=$((errors + 1))
 fi
 
 validate_markdown_frontmatter
@@ -766,7 +824,7 @@ require_codex_role_body() {
   local role="$1"
   local adapter=".codex/agents/$role.toml"
 
-  if ! python - "$adapter" ".agents/roles/$role.md" "$role" <<'PY'
+  if ! $PY - "$adapter" ".agents/roles/$role.md" "$role" <<'PY'
 import sys
 import tomllib
 from pathlib import Path
@@ -902,6 +960,7 @@ for skill in "${required_skills[@]}"; do
   require_exact_line "$claude_skill" "name: $skill"
   require_exact_line "$claude_skill" "@../../../.agents/skills/$skill/SKILL.md"
   canonical_description="$(grep -m1 '^description:' "$canonical_skill")"
+  canonical_description="${canonical_description%$'\r'}"
   require_exact_line "$claude_skill" "$canonical_description"
 done
 
@@ -915,14 +974,6 @@ done < <(find .claude/skills -type f -name SKILL.md -print0)
 
 for canonical_skill in .agents/skills/*/SKILL.md; do
   skill="$(basename "$(dirname "$canonical_skill")")"
-  found=0
-  for expected_skill in "${required_skills[@]}"; do
-    [[ "$skill" == "$expected_skill" ]] && found=1
-  done
-  if [[ "$found" -ne 1 ]]; then
-    echo "UNEXPECTED CANONICAL SKILL: $canonical_skill"
-    errors=$((errors + 1))
-  fi
   if [[ ! -f ".claude/skills/$skill/SKILL.md" ]]; then
     echo "MISSING CLAUDE SKILL ADAPTER: .claude/skills/$skill/SKILL.md"
     errors=$((errors + 1))

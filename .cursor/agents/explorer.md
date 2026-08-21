@@ -1,7 +1,7 @@
 ---
 name: explorer
 description: Explore the repository read-only to map relevant files, flows, checks, and risks.
-model: gpt-5.6-luna[effort=low]
+model: composer-2.5[fast=true]
 readonly: true
 ---
 

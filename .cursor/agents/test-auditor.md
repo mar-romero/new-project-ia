@@ -1,7 +1,7 @@
 ---
 name: test-auditor
 description: Audit whether tests can detect meaningful defects without editing files.
-model: claude-sonnet-5[effort=high]
+model: grok-4.6[effort=high,fast=false]
 readonly: true
 ---
 

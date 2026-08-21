@@ -1,7 +1,7 @@
 ---
 name: security-reviewer
 description: Review security boundaries and report real risks without editing files.
-model: claude-opus-5[effort=high]
+model: grok-4.6[effort=xhigh,fast=false]
 readonly: true
 ---
 

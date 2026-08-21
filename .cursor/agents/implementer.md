@@ -1,7 +1,7 @@
 ---
 name: implementer
 description: Implement one scoped task with evidence-backed checks and no nested delegation.
-model: claude-sonnet-5[effort=high]
+model: composer-2.5[fast=false]
 readonly: false
 ---
 

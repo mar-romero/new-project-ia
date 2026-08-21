@@ -19,7 +19,7 @@ bash scripts/check-harness.sh
 
 | Tool | Committed configuration | What it loads | Verify in the tool |
 |---|---|---|---|
-| Codex | `AGENTS.md`, `.codex/agents/`, `.agents/skills/` | Shared policy, fourteen shared skills, and seven checked native roles | Ask Codex to use a named role and inspect the loaded skills. |
+| Codex | `AGENTS.md`, `.codex/agents/`, `.agents/skills/` | Shared policy, every canonical skill, and seven checked native roles | Ask Codex to use a named role and inspect the loaded skills. |
 | Claude Code | `CLAUDE.md`, `.claude/skills/`, `.claude/agents/` | Shared policy, thin adapters for every canonical skill, and seven native role adapters | `/memory`; `/skills`; `/agents`. |
 | Cursor | `.cursor/agents/`, `AGENTS.md`, `.agents/skills/` | Shared policy and skills plus seven native role adapters | Open Customize → Agents/Rules/Skills. |
 | OpenCode | `opencode.json`, `.opencode/agents/` | Root rules, native `.agents/skills/` discovery, and seven native role adapters | Use `@explorer` (or another role) and inspect context. |
@@ -39,6 +39,11 @@ bash scripts/check-harness.sh
   OpenCode, GitHub Copilot, and Gemini CLI discover `.agents/skills/` natively;
   Gemini requires user consent whenever it activates a skill. Skills remain on
   demand, except the Claude implementer's `software-engineering` preload.
+- New portable skills are opt-in: when a user requests all-provider support,
+  `portable-skill-authoring` creates the canonical source and
+  `scripts/sync-portable-skills.sh --write` generates the deterministic Claude
+  wrapper. The harness accepts additional valid canonical skills and checks all
+  canonical/Claude pairs; it still requires the baseline inventory.
 - Parity means the same role intent, skills, and workflow. It does not promise
   identical model quality, latency, cost, context handling, or runtime behavior.
 - Each adapter has a checked, provider-native role/model profile. The exact

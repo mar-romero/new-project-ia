@@ -1,8 +1,9 @@
 ---
 description: Audit whether tests can detect meaningful defects without editing files.
 mode: subagent
-model: opencode/gpt-5.6-terra
 steps: 18
+model: opencode/gpt-5.6-terra
+# opencode-go alt: opencode-go/glm-5.3 (strong reasoning, test analysis)
 permissions:
   - action: edit
     resource: "*"

@@ -1,7 +1,7 @@
 ---
 name: planner
 description: Plan ambiguous or high-risk work without editing files.
-model: claude-opus-5[effort=high]
+model: grok-4.6[effort=high,fast=false]
 readonly: true
 ---
 

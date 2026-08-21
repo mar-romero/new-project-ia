@@ -1,7 +1,7 @@
 ---
 name: docs-researcher
 description: Research current official technical contracts without editing application code.
-model: gpt-5.6-terra[effort=medium]
+model: grok-4.6[effort=medium,fast=false]
 readonly: true
 ---
 

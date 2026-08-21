@@ -6,7 +6,7 @@ Este repositorio ofrece el mismo contrato operativo en Codex, Claude Code,
 OpenCode, Cursor, Gemini CLI y GitHub Copilot:
 
 - siete roles con el mismo cuerpo de instrucciones;
-- catorce skills canónicas;
+- un inventario base de skills canónicas, ampliable sin duplicar contenido;
 - `AGENTS.md` y `AI_POLICY.md` como reglas del proyecto;
 - el ciclo `REQUEST → TASK → RISK → IMPLEMENT → CHECKS → REVIEW → CLOSE`;
 - un solo escritor por tarea y revisión independiente cuando el riesgo lo
@@ -44,12 +44,18 @@ irrelevantes.
 | Ingeniería | `software-engineering`, `test-strategy`, `systemic-defect-triage` | Diseño simple y universal, pruebas útiles y diagnóstico de causas comunes |
 | Revisión y división | `independent-review`, `chained-work`, `work-unit-commits` | Falsificar candidatos y mantener unidades revisables |
 | Colaboración | `github-issue`, `cognitive-doc-design` | Issues accionables y documentación fácil de escanear/verificar |
+| Autoría portable | `portable-skill-authoring` | Crear una skill canónica y sincronizarla para todos los proveedores cuando el usuario lo elige |
 
 Codex, Cursor, OpenCode, Gemini CLI y Copilot descubren
 `.agents/skills/` nativamente. Claude Code usa wrappers mínimos en
 `.claude/skills/` que apuntan a la misma fuente canónica. Gemini solicita
 consentimiento al activar una skill. El implementer de Claude precarga sólo
 `software-engineering`; el resto se mantiene bajo demanda.
+
+Para agregar una skill portable, invoque `portable-skill-authoring` sólo si el
+usuario pide disponibilidad para todos los proveedores. Después ejecute
+`bash scripts/sync-portable-skills.sh --write`; el arnés valida cada skill
+canónica y su wrapper Claude, incluidos los añadidos después de clonar.
 
 ## Cómo invocar un rol
 
@@ -134,7 +140,7 @@ cambia el cuerpo, los permisos ni las skills de ningún rol.
 Gentle-AI confirma el mismo principio: la portabilidad real usa una intención
 común y adaptadores específicos por runtime. Su alcance incluye un configurador
 e instalación de módulos; este starter mantiene archivos estáticos dentro del
-repositorio porque siete roles y catorce skills no justifican todavía un
+repositorio porque siete roles y el inventario base de skills no justifican todavía un
 generador. El harness detecta drift y funciona inmediatamente después de
 clonar, sin escribir configuración global del desarrollador.
 

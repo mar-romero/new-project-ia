@@ -1,0 +1,6 @@
+interface:
+  display_name: "Judgment Day"
+  short_description: "Run a blind dual adversarial review"
+  default_prompt: "Use $judgment-day to adversarially review the frozen T-XXXX candidate."
+policy:
+  allow_implicit_invocation: false

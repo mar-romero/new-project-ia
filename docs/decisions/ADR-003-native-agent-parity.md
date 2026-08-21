@@ -45,9 +45,10 @@ CLI. At the time of this decision, Cursor and Gemini used `inherit` and Codex
 preserved its existing settings. ADR-004 supersedes only that model-selection
 choice with a provider-specific profile. All role bodies explicitly forbid
 delegation.
-Skills remain canonical under `.agents/skills/`; Claude uses its existing
-fourteen thin wrappers, while the other four tools discover that directory
-natively. Cursor's `readonly` field is used, but its documented project-agent
+Skills remain canonical under `.agents/skills/`; at this decision's date Claude
+used fourteen thin wrappers, while the other four tools discovered that
+directory natively. T-0008 subsequently made that inventory extensible through
+checked wrapper synchronization. Cursor's `readonly` field is used, but its documented project-agent
 frontmatter cannot hard-disable all shell access or child delegation; those
 remain prompt-level constraints unless a deployment adds managed policy.
 

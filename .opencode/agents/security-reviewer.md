@@ -1,8 +1,9 @@
 ---
 description: Review security boundaries and report real risks without editing files.
 mode: subagent
-model: opencode/gpt-5.6-sol
 steps: 24
+model: opencode/gpt-5.6-sol
+# opencode-go alt: opencode-go/qwen3.8-max (max-tier, strongest reasoning)
 permissions:
   - action: edit
     resource: "*"

@@ -12,21 +12,27 @@ universal.
 
 | Rol | Codex | Claude Code | Cursor | Gemini CLI | OpenCode (Zen) | Copilot CLI |
 |---|---|---|---|---|---|---|
-| `explorer` | GPT-5.6 Luna · low | Haiku · low · 10 turnos | GPT-5.6 Luna · low | Gemini 3 Flash Preview · 12 turnos | GPT-5.6 Luna · 12 pasos | Claude Haiku 4.5 · low |
-| `docs-researcher` | GPT-5.6 Terra · medium | Sonnet · medium · 16 turnos | GPT-5.6 Terra · medium | Gemini 3 Flash Preview · 18 turnos | GPT-5.6 Terra · 18 pasos | Gemini 3.7 Flash · medium |
-| `implementer` | GPT-5.6 Sol · high | Sonnet · high · 30 turnos | Claude Sonnet 5 · high | Gemini 3.1 Pro Preview · 30 turnos | GPT-5.6 Sol · 30 pasos | GPT-5.3-Codex · high |
-| `planner` | GPT-5.6 Sol · high | Opus · high · 20 turnos | Claude Opus 5 · high | Gemini 3.1 Pro Preview · 20 turnos | GPT-5.6 Sol · 20 pasos | GPT-5.4 · high |
-| `reviewer` | GPT-5.6 Sol · xhigh | Opus · high · 20 turnos | Claude Opus 5 · high | Gemini 3.1 Pro Preview · 20 turnos | GPT-5.6 Sol · 20 pasos | GPT-5.4 · high |
-| `security-reviewer` | GPT-5.6 Sol · xhigh | Opus · high · 24 turnos | Claude Opus 5 · high | Gemini 3.1 Pro Preview · 24 turnos | GPT-5.6 Sol · 24 pasos | GPT-5.4 · high |
-| `test-auditor` | GPT-5.6 Terra · high | Sonnet · high · 18 turnos | Claude Sonnet 5 · high | Gemini 3.1 Pro Preview · 18 turnos | GPT-5.6 Terra · 18 pasos | GPT-5.4 · high |
+| `explorer` | GPT-5.6 Luna · low | Haiku · low · 10 turnos | Composer 2.5 · fast | Gemini 3 Flash Preview · 12 turnos | GPT-5.6 Luna · 12 pasos | Claude Haiku 4.5 · low |
+| `docs-researcher` | GPT-5.6 Terra · medium | Sonnet · medium · 16 turnos | Grok 4.6 · medium | Gemini 3 Flash Preview · 18 turnos | GPT-5.6 Terra · 18 pasos | Gemini 3.7 Flash · medium |
+| `implementer` | GPT-5.6 Sol · high | Sonnet · high · 30 turnos | Composer 2.5 · standard | Gemini 3.1 Pro Preview · 30 turnos | GPT-5.6 Sol · 30 pasos | GPT-5.3-Codex · high |
+| `planner` | GPT-5.6 Sol · high | Opus · high · 20 turnos | Grok 4.6 · high | Gemini 3.1 Pro Preview · 20 turnos | GPT-5.6 Sol · 20 pasos | GPT-5.4 · high |
+| `reviewer` | GPT-5.6 Sol · xhigh | Opus · high · 20 turnos | Grok 4.6 · xhigh | Gemini 3.1 Pro Preview · 20 turnos | GPT-5.6 Sol · 20 pasos | GPT-5.4 · high |
+| `security-reviewer` | GPT-5.6 Sol · xhigh | Opus · high · 24 turnos | Grok 4.6 · xhigh | Gemini 3.1 Pro Preview · 24 turnos | GPT-5.6 Sol · 24 pasos | GPT-5.4 · high |
+| `test-auditor` | GPT-5.6 Terra · high | Sonnet · high · 18 turnos | Grok 4.6 · high | Gemini 3.1 Pro Preview · 18 turnos | GPT-5.6 Terra · 18 pasos | GPT-5.4 · high |
 
 En Claude, `opus`, `sonnet` y `haiku` son aliases móviles: en el Anthropic API
 actual apuntan a las familias 5, pero otros hosts empresariales pueden resolver
-otra versión. Gemini no expone un campo de esfuerzo directo por subagente; se
-usan temperatura baja y límites de turnos. No se agregan presupuestos de
-thinking no documentados. OpenCode V2 tampoco expone esfuerzo como campo del
-agente: el perfil usa nivel de modelo y pasos; una variante requiere settings
-verificados y selección `model#variant`.
+otra versión. Cursor usa el pool first-party: Composer 2.5 para búsqueda e
+implementación, Grok 4.6 para investigación, planificación y revisión. Fast es
+el default de Composer/Grok en Pro+; el perfil ancla `fast=false` en roles de
+juicio e implementación y `fast=true` sólo en `explorer`. Grok documenta
+`low`/`medium`/`high`/`xhigh`; Composer no documenta `effort`, sólo `fast`.
+En el plan Start, Grok queda fijo en medium y velocidad estándar. Gemini no
+expone un campo de esfuerzo directo por subagente; se usan temperatura baja y
+límites de turnos. No se agregan presupuestos de thinking no documentados.
+OpenCode V2 tampoco expone esfuerzo como campo del agente: el perfil usa nivel
+de modelo y pasos; una variante requiere settings verificados y selección
+`model#variant`.
 
 ## Por qué está distribuido así
 

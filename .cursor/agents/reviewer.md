@@ -1,7 +1,7 @@
 ---
 name: reviewer
 description: Independently review a checked candidate and try to falsify it without edits.
-model: claude-opus-5[effort=high]
+model: grok-4.6[effort=xhigh,fast=false]
 readonly: true
 ---
 

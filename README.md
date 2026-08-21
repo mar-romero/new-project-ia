@@ -2,7 +2,7 @@
 
 Starter universal para desarrollar software con agentes de IA sin depender de
 un único proveedor. El repositorio ofrece el mismo contrato de trabajo, los
-mismos siete roles y las mismas catorce skills en:
+mismos siete roles y las mismas skills canónicas en:
 
 - Codex;
 - Claude Code;
@@ -277,7 +277,7 @@ y [custom agents](https://docs.github.com/en/copilot/reference/custom-agents-con
 ├── opencode.json                     # entrada de OpenCode
 ├── .agents/
 │   ├── roles/                        # cuerpos canónicos de los 7 roles
-│   └── skills/                       # 14 skills canónicas
+│   └── skills/                       # skills canónicas y extensibles
 ├── .codex/agents/                    # adaptadores Codex
 ├── .claude/agents/ y .claude/skills/ # adaptadores Claude
 ├── .cursor/agents/                   # adaptadores Cursor
@@ -354,6 +354,7 @@ Use sólo los agentes necesarios. No todos los cambios requieren los siete.
 | Ingeniería | `software-engineering`, `test-strategy`, `systemic-defect-triage` |
 | Revisión y unidades | `independent-review`, `chained-work`, `work-unit-commits` |
 | Colaboración | `github-issue`, `cognitive-doc-design` |
+| Autoría portable | `portable-skill-authoring` |
 
 Las skills se cargan bajo demanda. La skill `software-engineering` promueve
 soluciones simples, legibles y reutilizables; aplica YAGNI, alta cohesión, bajo
@@ -368,13 +369,13 @@ razonamiento para planificar o revisar.
 
 | Rol | Codex | Claude | Cursor | Gemini | OpenCode Zen | Copilot |
 |---|---|---|---|---|---|---|
-| `explorer` | GPT-5.6 Luna · low | Haiku · low | GPT-5.6 Luna · low | Gemini 3 Flash | GPT-5.6 Luna · 12 steps | Claude Haiku 4.5 · low |
-| `docs-researcher` | GPT-5.6 Terra · medium | Sonnet · medium | GPT-5.6 Terra · medium | Gemini 3 Flash | GPT-5.6 Terra · 18 steps | Gemini 3.7 Flash · medium |
-| `implementer` | GPT-5.6 Sol · high | Sonnet · high | Claude Sonnet 5 · high | Gemini 3.1 Pro | GPT-5.6 Sol · 30 steps | GPT-5.3-Codex · high |
-| `planner` | GPT-5.6 Sol · high | Opus · high | Claude Opus 5 · high | Gemini 3.1 Pro | GPT-5.6 Sol · 20 steps | GPT-5.4 · high |
-| `reviewer` | GPT-5.6 Sol · xhigh | Opus · high | Claude Opus 5 · high | Gemini 3.1 Pro | GPT-5.6 Sol · 20 steps | GPT-5.4 · high |
-| `security-reviewer` | GPT-5.6 Sol · xhigh | Opus · high | Claude Opus 5 · high | Gemini 3.1 Pro | GPT-5.6 Sol · 24 steps | GPT-5.4 · high |
-| `test-auditor` | GPT-5.6 Terra · high | Sonnet · high | Claude Sonnet 5 · high | Gemini 3.1 Pro | GPT-5.6 Terra · 18 steps | GPT-5.4 · high |
+| `explorer` | GPT-5.6 Luna · low | Haiku · low | Composer 2.5 · fast | Gemini 3 Flash | GPT-5.6 Luna · 12 steps | Claude Haiku 4.5 · low |
+| `docs-researcher` | GPT-5.6 Terra · medium | Sonnet · medium | Grok 4.6 · medium | Gemini 3 Flash | GPT-5.6 Terra · 18 steps | Gemini 3.7 Flash · medium |
+| `implementer` | GPT-5.6 Sol · high | Sonnet · high | Composer 2.5 · standard | Gemini 3.1 Pro | GPT-5.6 Sol · 30 steps | GPT-5.3-Codex · high |
+| `planner` | GPT-5.6 Sol · high | Opus · high | Grok 4.6 · high | Gemini 3.1 Pro | GPT-5.6 Sol · 20 steps | GPT-5.4 · high |
+| `reviewer` | GPT-5.6 Sol · xhigh | Opus · high | Grok 4.6 · xhigh | Gemini 3.1 Pro | GPT-5.6 Sol · 20 steps | GPT-5.4 · high |
+| `security-reviewer` | GPT-5.6 Sol · xhigh | Opus · high | Grok 4.6 · xhigh | Gemini 3.1 Pro | GPT-5.6 Sol · 24 steps | GPT-5.4 · high |
+| `test-auditor` | GPT-5.6 Terra · high | Sonnet · high | Grok 4.6 · high | Gemini 3.1 Pro | GPT-5.6 Terra · 18 steps | GPT-5.4 · high |
 
 Detalles de turnos, timeouts, fallbacks y decisiones:
 [MODEL_ROUTING.md](docs/ai/MODEL_ROUTING.md).
@@ -507,11 +508,34 @@ justifica cuando necesita instrucciones, herramientas o contexto diferentes.
 
 ### Crear o modificar una skill
 
-1. Use `.agents/skills/<skill>/SKILL.md` como fuente canónica.
-2. Mantenga `name` y `description` precisos para facilitar el descubrimiento.
-3. Ponga detalles extensos en `references/` y cárguelos sólo cuando sean útiles.
-4. Cree el wrapper correspondiente en `.claude/skills/`.
-5. Actualice el inventario del arnés y valide la skill.
+Primero decida con el usuario si debe estar disponible en todos los proveedores
+o sólo en uno. No suponga portabilidad desde un pedido genérico de “crear una
+skill”.
+
+Para una skill portable, pida a cualquier agente:
+
+```text
+Usa portable-skill-authoring. Crea la skill <nombre> para todos los proveedores.
+```
+
+El flujo crea `.agents/skills/<skill>/SKILL.md` como fuente canónica y ejecuta:
+
+```bash
+bash scripts/sync-portable-skills.sh --write
+bash scripts/sync-portable-skills.sh --check
+bash scripts/check-harness.sh
+```
+
+Una carpeta directa cuyo nombre comienza con `_`, por ejemplo
+`.agents/skills/_shared/`, es sólo para recursos compartidos entre skills. No
+lleva `SKILL.md`, no es invocable y no genera un adaptador de proveedor.
+
+El sincronizador genera sólo el wrapper de Claude Code. Codex, Cursor, Gemini,
+OpenCode y Copilot descubren la skill canónica directamente. No edite a mano el
+wrapper generado ni copie el cuerpo de la skill a otros directorios.
+
+Para una skill exclusiva de un proveedor, use la ubicación nativa del proveedor
+y documente expresamente que no forma parte del contrato portable.
 
 ## Ahorrar tokens y contexto
 

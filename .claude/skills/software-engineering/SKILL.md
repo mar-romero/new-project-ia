@@ -5,5 +5,4 @@ description: Guide software design, implementation, refactoring, and code review
 
 @../../../.agents/skills/software-engineering/SKILL.md
 
-This adapter keeps the canonical guidance in `.agents/skills/software-engineering/`.
-Relative reference links in the imported skill resolve from that canonical directory, including `references/design-and-architecture.md` and `references/quality-testing-security.md`.
+Canonical guidance remains in `.agents/skills/software-engineering/`.

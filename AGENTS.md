@@ -28,6 +28,11 @@ Prioritize correctness, legibility and simplicity. Add patterns, abstractions,
 reuse or infrastructure only for demonstrated requirements; reuse must not
 create a premature abstraction.
 
+When a user explicitly requests a reusable skill for every supported provider,
+use `.agents/skills/portable-skill-authoring/SKILL.md`. Keep the skill canonical
+under `.agents/skills/` and synchronize its Claude wrapper; do not duplicate
+the skill body across provider directories.
+
 ## Operating model
 
 For a meaningful task use this sequence:
