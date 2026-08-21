@@ -20,6 +20,19 @@ Prefer executable evidence over plausible-looking implementation:
 Keep changes small, scoped and reviewable. Do not add dependencies,
 infrastructure or abstractions without a current, concrete need.
 
+## Universal implementation standard
+
+For code design, implementation or refactoring, read and follow
+`.agents/skills/software-engineering/SKILL.md` and only its relevant reference(s).
+Prioritize correctness, legibility and simplicity. Add patterns, abstractions,
+reuse or infrastructure only for demonstrated requirements; reuse must not
+create a premature abstraction.
+
+When a user explicitly requests a reusable skill for every supported provider,
+use `.agents/skills/portable-skill-authoring/SKILL.md`. Keep the skill canonical
+under `.agents/skills/` and synchronize its Claude wrapper; do not duplicate
+the skill body across provider directories.
+
 ## Operating model
 
 For a meaningful task use this sequence:
@@ -97,4 +110,3 @@ A meaningful task is complete only when its acceptance criteria are met,
 applicable checks pass, no blocker/high review finding remains, documentation
 and source contracts are updated where behavior changed, and residual risks
 are recorded. Do not report completion without the evidence.
-
