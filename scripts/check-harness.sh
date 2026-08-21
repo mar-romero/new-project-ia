@@ -267,16 +267,14 @@ GEMINI_PROFILE = {
     "test-auditor": ("gemini-3.1-pro-preview", "0.1", "18", "10"),
 }
 OPENCODE_PROFILE = {
-    # OpenCode V2: each agent pins a verified Zen model (opencode/gpt-5.6-*)
-    # with a comment showing the opencode-go alternative. The harness skips
-    # YAML comment lines (`#...`) in frontmatter so the comment is harmless.
-    "explorer": ("opencode/gpt-5.6-luna", "12"),
-    "docs-researcher": ("opencode/gpt-5.6-terra", "18"),
-    "implementer": ("opencode/gpt-5.6-sol", "30"),
-    "planner": ("opencode/gpt-5.6-sol", "20"),
-    "reviewer": ("opencode/gpt-5.6-sol", "20"),
-    "security-reviewer": ("opencode/gpt-5.6-sol", "24"),
-    "test-auditor": ("opencode/gpt-5.6-terra", "18"),
+    # OpenCode Zen profile; comments in adapters document the OpenCode Go fallback.
+    "explorer": ("opencode/muse-spark-1.2-contributor-free", "12"),
+    "docs-researcher": ("opencode/mimo-v2.5-free", "18"),
+    "implementer": ("opencode/big-pickle", "30"),
+    "planner": ("opencode/nemotron-3-ultra-free", "20"),
+    "reviewer": ("opencode/nemotron-3-ultra-free", "20"),
+    "security-reviewer": ("opencode/nemotron-3-ultra-free", "24"),
+    "test-auditor": ("opencode/nemotron-3.5-lightning-free", "18"),
 }
 COPILOT_PROFILE = {
     "explorer": ("claude-haiku-4.5", "low"),

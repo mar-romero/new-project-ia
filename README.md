@@ -239,7 +239,21 @@ opencode
 
 Ejecute `/connect` para elegir un proveedor y `opencode models` para listar los
 modelos realmente disponibles. Este starter usa OpenCode Zen como base; Zen es
-opcional y pago. Puede cambiarlo por cualquier proveedor conectado.
+opcional y pago. Los agentes seleccionan el modelo según su función:
+
+| Agente | OpenCode Zen | Alternativa OpenCode Go |
+|---|---|---|
+| `explorer` | `opencode/muse-spark-1.2-contributor-free` | `opencode-go/gpt-5.6-luna` |
+| `docs-researcher` | `opencode/mimo-v2.5-free` | `opencode-go/qwen3.7-plus` |
+| `implementer` | `opencode/big-pickle` | `opencode-go/kimi-k2.7-code` |
+| `planner` | `opencode/nemotron-3-ultra-free` | `opencode-go/qwen3.8-max` |
+| `reviewer` | `opencode/nemotron-3-ultra-free` | `opencode-go/qwen3.8-max` |
+| `security-reviewer` | `opencode/nemotron-3-ultra-free` | `opencode-go/qwen3.8-max` |
+| `test-auditor` | `opencode/nemotron-3.5-lightning-free` | `opencode-go/glm-5.3` |
+
+Conecta Zen con `/connect`; después verifica el catálogo con `opencode models`.
+Si Zen no está conectado, cambia la sesión a un modelo disponible o sustituye
+los IDs por las alternativas de OpenCode Go indicadas arriba.
 
 Documentación: [inicio](https://opencode.ai/docs),
 [agentes V2](https://opencode.ai/v2/docs/agents) y
