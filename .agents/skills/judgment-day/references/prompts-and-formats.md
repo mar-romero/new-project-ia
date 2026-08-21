@@ -4,10 +4,12 @@ Read this reference only after the target is frozen.
 
 ## Judge prompt
 
-Give both judges the identical target identity, acceptance criteria, applicable
-repository rules, frozen changed files/diff, deterministic evidence, and the
-same relevant skill paths. Do not give either judge the other judge's findings
-or the implementation conversation.
+Invoke the existing `reviewer` role twice and give both instances the identical
+target identity, acceptance criteria, applicable repository rules, frozen
+changed files/diff, deterministic evidence, and the same relevant skill paths.
+Do not give either instance the other instance's findings or the implementation
+conversation. Judge A and Judge B are ledger labels only; they are not agent
+names.
 
 Ask each judge to return a table with: ID, severity, evidence, problem,
 impact, and minimal direction. Severity is `SEVERE` only when the target cannot

@@ -964,6 +964,14 @@ for skill in "${required_skills[@]}"; do
   require_exact_line "$claude_skill" "$canonical_description"
 done
 
+judgment_day_skill=".agents/skills/judgment-day/SKILL.md"
+require_exact_line "$judgment_day_skill" "- Treat Judge A and Judge B as ledger labels, not agent configuration names."
+require_exact_line "$judgment_day_skill" '  both `reviewer` instances and, if needed, the `implementer` instance.'
+if grep -Eq 'jd-(judge|fix)' "$judgment_day_skill"; then
+  echo "INVALID JUDGMENT-DAY AGENT REFERENCE: $judgment_day_skill"
+  errors=$((errors + 1))
+fi
+
 while IFS= read -r -d '' claude_skill; do
   skill="$(basename "$(dirname "$claude_skill")")"
   if [[ ! -f ".agents/skills/$skill/SKILL.md" ]]; then

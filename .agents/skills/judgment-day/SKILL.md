@@ -12,18 +12,26 @@ both. It is a review method, not a commit, push, PR, or release authorization.
 
 ## Hard Rules
 
+- Before freezing the target, resolve the existing `reviewer` and `implementer`
+  roles in the current runtime. Do not invent, configure, or invoke ad-hoc
+  judge or fixer agent profiles.
 - Before freezing the target, verify that the runtime can launch two **fresh,
-  isolated, read-only** judge contexts in addition to the parent. Do not reuse
-  an agent that authored, implemented, or previously reviewed the target.
+  isolated, read-only** instances of the existing `reviewer` role in addition
+  to the parent. Do not reuse an instance that authored, implemented, or
+  previously reviewed the target.
 - If that capacity is unavailable, stop before any judgment, record the reason,
   and return `JUDGMENT: ESCALATED` with the next action: start a new isolated
-  Codex session from the frozen review packet. Never replace the two judges with
-  one judge, the parent, or two agents carrying target context.
-- Resolve matching project skills before starting and pass the same paths to both judges (`jd-judge-a`, `jd-judge-b`) and the fix actor (`jd-fix-agent`).
+  session in a runtime that can execute the frozen review packet. Never replace
+  the two judges with one judge, the parent, or two agents carrying target
+  context.
+- Treat Judge A and Judge B as ledger labels, not agent configuration names.
+  Resolve matching project skills before starting and pass the same paths to
+  both `reviewer` instances and, if needed, the `implementer` instance.
 - Build one complete immutable target, then launch two blind read-only judges in parallel with identical scope and criteria.
 - Each judge returns one neutral findings result and terminates. Wait for both; never accept a partial judgment.
 - Never launch `review-refuter`; two-judge agreement is the corroboration mechanism.
-- Only the parent orchestrator merges/persists findings, launches the fix actor (`jd-fix-agent`), and launches scoped re-judgment.
+- Only the parent orchestrator merges/persists findings, launches the existing
+  `implementer` role after human approval, and launches scoped re-judgment.
 - Fix only severe findings confirmed by both judges. WARNING/SUGGESTION rows remain `info`.
 - Permit at most two fix rounds and two scoped re-judgments. Re-judgment sees only the frozen ledger plus fix delta and may record fix-caused defects.
 - The only terminal verdicts are `APPROVED | ESCALATED`; never reset or extend an exhausted round budget.
@@ -49,13 +57,17 @@ both. It is a review method, not a commit, push, PR, or release authorization.
 
 ## Execution Steps
 
-1. Verify capacity for two fresh isolated judges. If unavailable, stop with the
+1. Resolve the existing `reviewer` and `implementer` roles and verify capacity
+   for two fresh, isolated `reviewer` instances. If unavailable, stop with the
    documented `ESCALATED` verdict; do not freeze a partial judgment.
 2. Build the complete immutable target and freeze the scope both judges will inspect.
-3. Launch both read-only judges in parallel (`jd-judge-a`, `jd-judge-b`) against the same immutable target.
+3. Launch two read-only `reviewer` instances in parallel against the same
+   immutable target; record their returned instance identifiers as Judge A and
+   Judge B in the ledger.
 4. Merge findings into the frozen ledger and persist it through the selected artifact store.
-5. Ask before round-one correction; run the fix actor (`jd-fix-agent`) only for confirmed severe IDs.
-6. Run both judges again (`jd-judge-a`, `jd-judge-b`) only over the frozen ledger plus immutable fix delta.
+5. Ask before round-one correction; run the existing `implementer` role only
+   for confirmed severe IDs.
+6. Run two new `reviewer` instances only over the frozen ledger plus immutable fix delta.
 7. Repeat once at most, then run independent final verification and return the terminal verdict.
 
 ## Output Contract
