@@ -2,8 +2,8 @@
 description: Explore the repository read-only to map relevant files, flows, checks, and risks.
 mode: subagent
 steps: 12
-model: opencode/gpt-5.6-luna
-# opencode-go alt: opencode-go/gpt-5.6-luna (fast tier, budget reads)
+model: opencode/muse-spark-1.2-contributor-free
+# opencode-go alt: opencode-go/gpt-5.6-luna (fast and economical for exploration)
 permissions:
   - action: edit
     resource: "*"

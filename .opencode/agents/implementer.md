@@ -2,8 +2,8 @@
 description: Implement one scoped task with evidence-backed checks and no nested delegation.
 mode: subagent
 steps: 30
-model: opencode/gpt-5.6-sol
-# opencode-go alt: opencode-go/kimi-k2.7-code (code-tuned, best for coding)
+model: opencode/big-pickle
+# opencode-go alt: opencode-go/kimi-k2.7-code (coding-specialized)
 permissions:
   - action: edit
     resource: "*"

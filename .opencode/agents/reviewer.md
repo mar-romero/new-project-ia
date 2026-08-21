@@ -2,8 +2,8 @@
 description: Independently review a checked candidate and try to falsify it without edits.
 mode: subagent
 steps: 20
-model: opencode/gpt-5.6-sol
-# opencode-go alt: opencode-go/qwen3.8-max (max-tier, strongest reasoning)
+model: opencode/nemotron-3-ultra-free
+# opencode-go alt: opencode-go/qwen3.8-max (deep reasoning)
 permissions:
   - action: edit
     resource: "*"

@@ -2,8 +2,8 @@
 description: Research current official technical contracts without editing application code.
 mode: subagent
 steps: 18
-model: opencode/gpt-5.6-terra
-# opencode-go alt: opencode-go/qwen3.7-plus (balanced research, strong retrieval)
+model: opencode/mimo-v2.5-free
+# opencode-go alt: opencode-go/qwen3.7-plus (balanced research and retrieval)
 permissions:
   - action: edit
     resource: "*"
