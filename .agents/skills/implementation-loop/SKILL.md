@@ -46,6 +46,18 @@ Before requesting AI review, run applicable deterministic checks:
 
 Do not spend reviewer tokens on code that already fails deterministic checks.
 
+## Runtime Verification When Relevant
+
+When the task changes a user-visible web flow and a runnable application is
+available, use `web-dogfood` after deterministic checks for the affected flow.
+
+Treat confirmed BLOCKER or HIGH dogfood findings like failed verification:
+correct them and rerun the relevant deterministic and runtime checks before
+freezing the review candidate.
+
+Do not require web dogfooding for changes without a relevant runnable user
+interface.
+
 ## Candidate Freeze
 
 Once deterministic checks pass:

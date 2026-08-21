@@ -123,15 +123,19 @@ required_skills=(
   "chained-work"
   "cognitive-doc-design"
   "decision-escalation"
+  "grounded-evidence"
   "github-issue"
   "implementation-loop"
   "independent-review"
+  "judgment-day"
   "source-research"
   "software-engineering"
   "systemic-defect-triage"
   "task-close"
   "task-intake"
+  "technical-spike"
   "test-strategy"
+  "web-dogfood"
   "work-unit-commits"
   "portable-skill-authoring"
 )
@@ -967,7 +971,7 @@ done
 judgment_day_skill=".agents/skills/judgment-day/SKILL.md"
 require_exact_line "$judgment_day_skill" "- Treat Judge A and Judge B as ledger labels, not agent configuration names."
 require_exact_line "$judgment_day_skill" '  both `reviewer` instances and, if needed, the `implementer` instance.'
-if grep -Eq 'jd-(judge|fix)' "$judgment_day_skill"; then
+if grep -Eq 'jd-(judge|fix)|review-refuter' "$judgment_day_skill"; then
   echo "INVALID JUDGMENT-DAY AGENT REFERENCE: $judgment_day_skill"
   errors=$((errors + 1))
 fi

@@ -40,9 +40,9 @@ irrelevantes.
 | Grupo | Skills | Propósito |
 |---|---|---|
 | Ciclo de trabajo | `task-intake`, `implementation-loop`, `task-close` | Definir, implementar y cerrar una tarea con evidencia |
-| Decisiones y fuentes | `source-research`, `architecture-decision`, `decision-escalation` | Verificar contratos, comparar opciones duraderas y pedir decisiones humanas |
-| Ingeniería | `software-engineering`, `test-strategy`, `systemic-defect-triage` | Diseño simple y universal, pruebas útiles y diagnóstico de causas comunes |
-| Revisión y división | `independent-review`, `chained-work`, `work-unit-commits` | Falsificar candidatos y mantener unidades revisables |
+| Decisiones y fuentes | `source-research`, `grounded-evidence`, `technical-spike`, `architecture-decision`, `decision-escalation` | Verificar contratos, preservar evidencia, resolver incertidumbre empíricamente, comparar opciones duraderas y pedir decisiones humanas |
+| Ingeniería y QA | `software-engineering`, `test-strategy`, `systemic-defect-triage`, `web-dogfood` | Diseño simple, pruebas útiles, diagnóstico de causas comunes y QA exploratorio de flujos web |
+| Revisión y división | `independent-review`, `judgment-day`, `chained-work`, `work-unit-commits` | Falsificar candidatos, hacer doble revisión cuando se solicita y mantener unidades revisables |
 | Colaboración | `github-issue`, `cognitive-doc-design` | Issues accionables y documentación fácil de escanear/verificar |
 | Autoría portable | `portable-skill-authoring` | Crear una skill canónica y sincronizarla para todos los proveedores cuando el usuario lo elige |
 

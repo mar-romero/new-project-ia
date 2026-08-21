@@ -29,7 +29,8 @@ both. It is a review method, not a commit, push, PR, or release authorization.
   both `reviewer` instances and, if needed, the `implementer` instance.
 - Build one complete immutable target, then launch two blind read-only judges in parallel with identical scope and criteria.
 - Each judge returns one neutral findings result and terminates. Wait for both; never accept a partial judgment.
-- Never launch `review-refuter`; two-judge agreement is the corroboration mechanism.
+- Two-judge agreement is the corroboration mechanism; do not introduce another
+  reviewer role.
 - Only the parent orchestrator merges/persists findings, launches the existing
   `implementer` role after human approval, and launches scoped re-judgment.
 - Fix only severe findings confirmed by both judges. WARNING/SUGGESTION rows remain `info`.
