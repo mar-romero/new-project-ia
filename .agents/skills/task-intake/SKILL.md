@@ -9,6 +9,12 @@ Turn a request into a small, verifiable work unit before implementation.
 Identify outcome, out-of-scope items, affected areas, R0–R3 risk, invariants,
 measurable acceptance criteria, evidence, human gates and minimum agents.
 
+Identify material unresolved technical assumptions separately from ordinary
+implementation work. When an assumption could materially change feasibility,
+architecture, provider choice, performance expectations or integration shape,
+and cannot be resolved reliably from existing code or authoritative sources,
+route it through `technical-spike` before committing to implementation.
+
 If understanding requires broad repository reading, use one explorer. Ask the
 human only when a missing decision materially affects behavior, security,
 architecture, cost, irreversible state or compliance. Otherwise document a

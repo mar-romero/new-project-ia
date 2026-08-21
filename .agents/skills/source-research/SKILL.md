@@ -65,4 +65,10 @@ Include:
 - assumptions;
 - known limitations.
 
+When retrieved facts, contracts, or measurements will support a durable
+decision, report, or implementation handoff, also use `grounded-evidence` to
+preserve claim-level provenance. `source-research` identifies the applicable
+external contract; `grounded-evidence` preserves the evidence for the claims
+that rely on it.
+
 Use `docs-researcher` for broad external research.
