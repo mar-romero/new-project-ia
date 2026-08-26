@@ -64,15 +64,21 @@ required_files=(
   "docs/sources/contracts/COPILOT_AND_PORTABLE_HARNESS.md"
   "docs/sources/contracts/ROLE_MODEL_CONFIGURATION.md"
   "docs/sources/contracts/GENTLE_AI_BOUNDED_REVIEW.md"
+  "docs/sources/contracts/REVIEW_FREEZE.md"
   "docs/decisions/ADR-002-portable-role-contracts.md"
   "docs/decisions/ADR-003-native-agent-parity.md"
   "docs/decisions/ADR-004-role-model-routing.md"
   "docs/decisions/ADR-005-portable-bounded-review.md"
+  "docs/decisions/ADR-006-content-hash-freeze.md"
   "specs/T-0005-native-agent-parity.md"
   "specs/T-0006-six-tool-harness-guide.md"
   "specs/T-0007-provider-model-routing.md"
   "specs/T-0008-portable-skill-authoring.md"
   "scripts/sync-portable-skills.sh"
+  "scripts/review_gate.py"
+  "scripts/run-review-evals.sh"
+  "scripts/check-commit-message.sh"
+  "evals/reviewer/README.md"
   "tests/README.md"
 )
 
@@ -98,6 +104,7 @@ required_dirs=(
   "tasks/done"
   "tasks/templates"
   "tests"
+  "evals/reviewer"
 )
 
 required_agents=(
@@ -730,6 +737,10 @@ if ! bash scripts/sync-portable-skills.sh --check; then
   errors=$((errors + 1))
 fi
 
+if ! bash scripts/run-review-evals.sh; then
+  errors=$((errors + 1))
+fi
+
 validate_markdown_frontmatter
 
 require_claude_role_name() {
@@ -818,6 +829,14 @@ require_exact_line "opencode.json" '    "AI_POLICY.md"'
 require_exact_line ".github/copilot-instructions.md" "@../AGENTS.md"
 require_exact_line ".github/copilot-instructions.md" "@../AI_POLICY.md"
 require_exact_line "AGENTS.md" '`.agents/skills/software-engineering/SKILL.md` and only its relevant reference(s).'
+if ! grep -Fq 'CHECK_HARNESS_SELFTEST: "1"' .github/workflows/harness.yml; then
+  echo "MISSING CONTENT: .github/workflows/harness.yml must enable harness self-tests"
+  errors=$((errors + 1))
+fi
+if ! grep -Fq 'scripts/check-commit-message.sh' .github/workflows/harness.yml; then
+  echo "MISSING CONTENT: .github/workflows/harness.yml must check commit subjects"
+  errors=$((errors + 1))
+fi
 require_exact_line ".agents/skills/software-engineering/SKILL.md" "## Route by need"
 require_exact_line ".agents/skills/software-engineering/SKILL.md" '- Read [design and architecture](references/design-and-architecture.md) when'
 require_exact_line ".agents/skills/software-engineering/SKILL.md" '- Read [quality, testing and security](references/quality-testing-security.md)'
@@ -979,6 +998,7 @@ for skill in "${required_skills[@]}"; do
 done
 
 require_exact_line ".agents/skills/bounded-review/SKILL.md" "Unproven claims are not defects and cannot authorize PASS."
+require_exact_line ".agents/skills/bounded-review/SKILL.md" "python scripts/review_gate.py freeze --task T-XXXX --output docs/audits/T-XXXX/freeze.json"
 
 judgment_day_skill=".agents/skills/judgment-day/SKILL.md"
 require_exact_line "$judgment_day_skill" "- Treat Judge A and Judge B as ledger labels, not agent configuration names."

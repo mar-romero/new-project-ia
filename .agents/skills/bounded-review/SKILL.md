@@ -28,14 +28,26 @@ Unproven claims are not defects and cannot authorize PASS.
 
 ## Freeze once
 
-After source-mutating formatters and applicable deterministic checks:
+After source-mutating formatters and applicable deterministic checks, write a
+content-hash freeze and keep those bytes unchanged:
 
-1. Record `HEAD` (`git rev-parse HEAD`) and the changed-path list.
-2. Inspect the frozen diff and test evidence.
-3. Stop using source-mutating tools on those paths.
+```text
+python scripts/review_gate.py freeze --task T-XXXX --output docs/audits/T-XXXX/freeze.json
+python scripts/review_gate.py verify --freeze docs/audits/T-XXXX/freeze.json
+```
 
-That identity is the candidate. Any later byte, path, or check change
-invalidates the review. Re-freeze and start a new ledger row-set.
+The freeze records `git_head`, `diff_sha256`, and a SHA-256 per changed path.
+HEAD plus a path list is not enough: if a frozen file byte changes, verification
+fails and the review is invalid. Re-freeze and start a new ledger row-set.
+
+Inspect the frozen diff and test evidence. Stop using source-mutating tools on
+those paths. After review JSON exists:
+
+```text
+python scripts/review_gate.py validate-review --freeze docs/audits/T-XXXX/freeze.json --review docs/audits/T-XXXX/review.json
+```
+
+Markdown review notes are not the gate. Invalid structured output fails closed.
 
 ## Risk routing
 
@@ -105,9 +117,10 @@ If BLOCKER/HIGH remain after two cycles, stop and ask the human.
 
 ## Close
 
-PASS requires: freeze still valid, required checks recorded, no unresolved
-corroborated BLOCKER/HIGH, ledger persisted for R2/R3 (and for R1 when
-findings have lasting value).
+PASS requires: `verify` still succeeds, `validate-review` accepts the
+structured ledger, required checks recorded, no unresolved corroborated
+BLOCKER/HIGH, ledger persisted for R2/R3 (and for R1 when findings have
+lasting value).
 
 Do not say “already reviewed, trust me.” Point to the freeze identity,
 commands, ledger, and verdict.

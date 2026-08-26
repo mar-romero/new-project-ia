@@ -4,10 +4,11 @@ Review tries to falsify a candidate; it is not ceremonial approval. Trust
 reproducible tests and static/schema checks before assertions by agents.
 
 The writer of a change is not its final reviewer. Ordinary R1/R2/R3 review
-follows `bounded-review`: freeze the candidate, run an independent `reviewer`,
-drop findings that cannot be located, refute inferred blocker/high rows, and
-limit fixes to corroborated IDs. Judgment Day is an explicit dual-judge
-exception, not a second silent pass by the author.
+follows `bounded-review`: content-hash freeze the candidate, run an independent
+`reviewer`, validate structured findings against the freeze, drop findings that
+cannot be located, refute inferred blocker/high rows, and limit fixes to
+corroborated IDs. Judgment Day is an explicit dual-judge exception, not a
+second silent pass by the author.
 
 For meaningful R1/R2/R3 work, review the frozen candidate against its task,
 acceptance criteria, contracts, actual diff and deterministic evidence. Look

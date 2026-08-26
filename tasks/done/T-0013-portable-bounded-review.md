@@ -1,7 +1,7 @@
 ---
 id: T-0013
 title: Portable bounded review without Gentle-AI runtime
-status: IN_PROGRESS
+status: DONE
 risk: R1
 created: 2026-08-26
 updated: 2026-08-26

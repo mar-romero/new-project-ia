@@ -1,0 +1,15 @@
+{
+  "verdict": "CHANGES_REQUIRED",
+  "findings": [
+    {
+      "id": "F-001",
+      "severity": "HIGH",
+      "path": "src/app.ts",
+      "start_line": 2,
+      "evidence_class": "DETERMINISTIC",
+      "causality": "candidate",
+      "status": "open",
+      "problem": "add subtracts instead of adding"
+    }
+  ]
+}

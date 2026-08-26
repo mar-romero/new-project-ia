@@ -5,7 +5,9 @@ replace it.
 
 Run cheap checks first, make the same commands usable locally, use
 least-privilege permissions and avoid production secrets in ordinary pull
-requests. A starter may initially run only the harness check.
+requests. A starter may initially run only the harness check. This repository's required
+CI also runs harness self-tests (`CHECK_HARNESS_SELFTEST=1`), offline reviewer
+evals, and a commit-subject check for the latest commit.
 
 Once the stack exists, define fast checks (format/lint/types/unit), selective
 domain checks (contracts, schemas or security), integration checks and optional

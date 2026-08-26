@@ -82,11 +82,13 @@ el rol de forma explícita.
    la incertidumbre lo justifica.
 3. Entregue al `implementer` la tarea, criterios, rutas relevantes y límites;
    no todo el historial del chat.
-4. Ejecute checks deterministas y congele el candidato.
-5. Para R1–R3, siga `bounded-review`: congele identidad y diff, entregue al
-   `reviewer` la tarea y la evidencia exacta, y no deje que el implementer
-   escriba el veredicto. El reviewer no debe ser quien implementó. Refute
-   BLOCKER/HIGH inferidos con una segunda instancia aislada de `reviewer`.
+4. Ejecute checks deterministas y congele el candidato con
+   `scripts/review_gate.py freeze` / `verify`.
+5. Para R1–R3, siga `bounded-review`: entregue al `reviewer` la tarea y la
+   evidencia exacta, valide el JSON con `validate-review`, y no deje que el
+   implementer escriba el veredicto. El reviewer no debe ser quien implementó.
+   Refute BLOCKER/HIGH inferidos con una segunda instancia aislada de
+   `reviewer`.
 6. Cierre sólo con criterios cumplidos, BLOCKER/HIGH corroborados resueltos y
    riesgos residuales registrados. Filas refutadas o INSUFFICIENT no bloquean
    el cierre ni mandan un fix.

@@ -11,5 +11,7 @@ Use meaningful, small commits such as `feat(api): add request validation` or
 Do not mix unrelated work in one commit or rewrite shared history, force-push
 protected branches, or delete protected branches without explicit approval.
 The history should explain what changed, why and the verifying evidence; it
-must not become a transcript of AI activity.
+must not become a transcript of AI activity. CI rejects empty, placeholder
+(`.`, `...`, `-`) or extremely short subjects on the commit being checked;
+it does not rewrite existing history.
 

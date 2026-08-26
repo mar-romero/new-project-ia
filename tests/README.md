@@ -27,3 +27,8 @@ Add domain-specific test requirements only after the product scope is known.
 For example, data pipelines may need schema/replay tests and model-driven
 systems may need fixed evaluation data and reproducible seeds.
 
+Offline reviewer-gate cases live under `evals/reviewer/` and run through
+`bash scripts/run-review-evals.sh` (invoked by the harness). They do not call
+models.
+
+

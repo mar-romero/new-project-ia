@@ -1,6 +1,8 @@
 # Finding and ledger rows
 
-Use this table after freeze. The parent fills it; reviewers do not own it.
+Use this table after freeze. Persist machine-readable rows as JSON and run
+`scripts/review_gate.py validate-review` before accepting the ledger. Markdown
+is notes; the JSON is the gate.
 
 | ID | Sev | Path | Evidence | Class | Causality | Status | Action |
 |---|---|---|---|---|---|---|---|

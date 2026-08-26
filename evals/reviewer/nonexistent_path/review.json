@@ -1,0 +1,15 @@
+{
+  "verdict": "CHANGES_REQUIRED",
+  "findings": [
+    {
+      "id": "F-001",
+      "severity": "HIGH",
+      "path": "src/db/admin.py",
+      "start_line": 1,
+      "evidence_class": "DETERMINISTIC",
+      "causality": "candidate",
+      "status": "open",
+      "problem": "SQL injection in a file that does not exist"
+    }
+  ]
+}

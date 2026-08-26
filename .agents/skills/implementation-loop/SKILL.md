@@ -60,14 +60,12 @@ interface.
 
 ## Candidate Freeze
 
-Once deterministic checks pass:
+Once deterministic checks pass, write and verify a content-hash freeze with
+`scripts/review_gate.py freeze` / `verify`. Inspect the diff, avoid
+source-mutating tools, and treat the hashed bytes as the review candidate.
 
-1. record `HEAD` and the changed-path list;
-2. inspect the diff;
-3. avoid source-mutating tools;
-4. treat those bytes as the review candidate.
-
-If code changes after review, the relevant review must be repeated.
+If any frozen file changes after review, `verify` must fail and the review
+must be repeated.
 
 ## Independent Review
 
@@ -81,8 +79,11 @@ Give the reviewer:
 - task;
 - acceptance criteria;
 - relevant rules;
-- frozen identity, paths and diff;
+- freeze file identity, paths and diff;
 - test evidence.
+
+Validate the reviewer's JSON with `validate-review` before treating findings
+as ledger rows.
 
 Do not give the reviewer the complete implementer conversation. Do not
 self-approve.

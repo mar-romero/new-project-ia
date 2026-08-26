@@ -1,0 +1,14 @@
+{
+  "verdict": "CHANGES_REQUIRED",
+  "findings": [
+    {
+      "id": "F-001",
+      "severity": "HIGH",
+      "path": "",
+      "evidence_class": "INSUFFICIENT",
+      "causality": "unknown",
+      "status": "open",
+      "problem": "there might be a race condition somewhere"
+    }
+  ]
+}

@@ -13,6 +13,8 @@ jobs:
   validate-harness:
     name: Validate Harness
     runs-on: ubuntu-latest
+    env:
+      CHECK_HARNESS_SELFTEST: "1"
 
     steps:
       - name: Checkout repository
@@ -20,5 +22,8 @@ jobs:
 
       - name: Validate repository harness
         shell: bash
-        run: |
-          bash scripts/check-harness.sh
+        run: bash scripts/check-harness.sh
+
+      - name: Reject placeholder commit subjects
+        shell: bash
+        run: bash scripts/check-commit-message.sh
