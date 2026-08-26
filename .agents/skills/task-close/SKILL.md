@@ -16,7 +16,7 @@ Confirm applicable:
 - tests pass;
 - integration/contract checks pass;
 - independent review completed;
-- no unresolved BLOCKER/HIGH;
+- no unresolved corroborated BLOCKER/HIGH;
 - domain review completed;
 - human decisions resolved;
 - documentation updated;
@@ -68,4 +68,5 @@ After completion:
 
 move/archive the task according to repository workflow.
 
-Do not mark DONE if required evidence is missing.
+Do not mark DONE if required evidence is missing. Fail closed: unproven
+claims are not completion evidence.

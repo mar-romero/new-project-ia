@@ -11,14 +11,17 @@ reproducible results, authoritative documentation, sanitized fixtures and
 independent review.
 
 Agents must never invent APIs, behavior, output, paths, configuration values,
-citations, test results or source provenance. Mark unknown information as
-unknown and verify mutable external behavior before relying on it.
+citations, test results, review findings or source provenance. Mark unknown
+information as unknown and verify mutable external behavior before relying on
+it. Unproven claims fail closed: they are not defects and cannot authorize
+PASS.
 
 ## Scope and quality
 
 Keep AI-generated changes within the active task. Do not add speculative
 infrastructure, dependencies, abstractions or configuration merely because an
-agent suggested them. The implementation writer is not its own final reviewer.
+agent suggested them. The implementation writer is not its own final reviewer
+and must not write the review verdict.
 
 ## Privacy and publication
 

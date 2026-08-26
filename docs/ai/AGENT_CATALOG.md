@@ -42,7 +42,7 @@ irrelevantes.
 | Ciclo de trabajo | `task-intake`, `implementation-loop`, `task-close` | Definir, implementar y cerrar una tarea con evidencia |
 | Decisiones y fuentes | `source-research`, `grounded-evidence`, `technical-spike`, `architecture-decision`, `decision-escalation` | Verificar contratos, preservar evidencia, resolver incertidumbre empíricamente, comparar opciones duraderas y pedir decisiones humanas |
 | Ingeniería y QA | `software-engineering`, `test-strategy`, `systemic-defect-triage`, `web-dogfood` | Diseño simple, pruebas útiles, diagnóstico de causas comunes y QA exploratorio de flujos web |
-| Revisión y división | `independent-review`, `judgment-day`, `chained-work`, `work-unit-commits` | Falsificar candidatos, hacer doble revisión cuando se solicita y mantener unidades revisables |
+| Revisión y división | `bounded-review`, `independent-review`, `judgment-day`, `chained-work`, `work-unit-commits` | Congelar el candidato, falsificarlo, refutar hallazgos inferidos, hacer doble revisión cuando se solicita y mantener unidades revisables |
 | Colaboración | `github-issue`, `cognitive-doc-design` | Issues accionables y documentación fácil de escanear/verificar |
 | Autoría portable | `portable-skill-authoring` | Crear una skill canónica y sincronizarla para todos los proveedores cuando el usuario lo elige |
 
@@ -83,10 +83,13 @@ el rol de forma explícita.
 3. Entregue al `implementer` la tarea, criterios, rutas relevantes y límites;
    no todo el historial del chat.
 4. Ejecute checks deterministas y congele el candidato.
-5. Para R1–R3, entregue al `reviewer` la tarea, el diff y los resultados
-   exactos. El reviewer no debe ser quien implementó.
-6. Cierre sólo con criterios cumplidos, hallazgos altos resueltos y riesgos
-   residuales registrados.
+5. Para R1–R3, siga `bounded-review`: congele identidad y diff, entregue al
+   `reviewer` la tarea y la evidencia exacta, y no deje que el implementer
+   escriba el veredicto. El reviewer no debe ser quien implementó. Refute
+   BLOCKER/HIGH inferidos con una segunda instancia aislada de `reviewer`.
+6. Cierre sólo con criterios cumplidos, BLOCKER/HIGH corroborados resueltos y
+   riesgos residuales registrados. Filas refutadas o INSUFFICIENT no bloquean
+   el cierre ni mandan un fix.
 
 Ejemplo compacto:
 
@@ -140,11 +143,13 @@ cambia el cuerpo, los permisos ni las skills de ningún rol.
 ## Relación con Gentle-AI
 
 Gentle-AI confirma el mismo principio: la portabilidad real usa una intención
-común y adaptadores específicos por runtime. Su alcance incluye un configurador
-e instalación de módulos; este starter mantiene archivos estáticos dentro del
-repositorio porque siete roles y el inventario base de skills no justifican todavía un
-generador. El harness detecta drift y funciona inmediatamente después de
-clonar, sin escribir configuración global del desarrollador.
+común y adaptadores específicos por runtime. Su alcance incluye un
+configurador, un motor nativo de review y receipts; este starter mantiene
+archivos estáticos y el protocolo `bounded-review` porque siete roles y el
+inventario de skills no justifican un binario. El harness detecta drift y
+funciona inmediatamente después de clonar, sin escribir configuración global
+del desarrollador. El contrato compacto está en
+`docs/sources/contracts/GENTLE_AI_BOUNDED_REVIEW.md`.
 
 ## Comprobación local
 

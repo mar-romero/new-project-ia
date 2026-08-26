@@ -62,8 +62,8 @@ interface.
 
 Once deterministic checks pass:
 
-1. inspect the diff;
-2. identify changed files;
+1. record `HEAD` and the changed-path list;
+2. inspect the diff;
 3. avoid source-mutating tools;
 4. treat those bytes as the review candidate.
 
@@ -71,24 +71,30 @@ If code changes after review, the relevant review must be repeated.
 
 ## Independent Review
 
-Invoke an independent reviewer using:
+For R1–R3, load `bounded-review` and follow it. The parent freezes the
+candidate, launches a `reviewer` that did not implement the change, records
+the ledger, and refutes inferred BLOCKER/HIGH with a second isolated
+`reviewer` instance when required.
+
+Give the reviewer:
 
 - task;
 - acceptance criteria;
 - relevant rules;
-- frozen diff;
+- frozen identity, paths and diff;
 - test evidence.
 
-Do not give the reviewer the complete implementer conversation.
+Do not give the reviewer the complete implementer conversation. Do not
+self-approve.
 
 ## Fix Cycle
 
-If reviewer returns BLOCKER or HIGH findings:
+If corroborated BLOCKER or HIGH findings remain:
 
-1. return findings to implementer;
-2. make targeted fixes;
+1. return only those finding IDs to implementer;
+2. make targeted fixes for those IDs only;
 3. rerun relevant deterministic checks;
-4. rerun independent review.
+4. re-freeze and rerun bounded review on the ledger plus the fix delta.
 
 Maximum total review/fix cycles:
 

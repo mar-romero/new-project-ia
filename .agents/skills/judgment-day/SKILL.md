@@ -7,8 +7,8 @@ description: "Trigger: judgment day, dual review, adversarial review, juzgar. Ru
 
 Load only when the user explicitly requests `$judgment-day`, "Judgment Day",
 "dual review", "adversarial review", or "juzgar" for a concrete target. It
-replaces the ordinary independent-review method for that target; never run
-both. It is a review method, not a commit, push, PR, or release authorization.
+replaces the ordinary `bounded-review` / `independent-review` method for that
+target; never run both. It is a review method, not a commit, push, PR, or release authorization.
 
 ## Hard Rules
 

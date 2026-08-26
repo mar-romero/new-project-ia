@@ -25,7 +25,7 @@ incorrectos y contenido divergente.
 
 - Un ciclo verificable: `REQUEST → TASK → RISK → IMPLEMENT → CHECKS → REVIEW → CLOSE`.
 - Siete agentes especializados con un solo implementador/escritor por tarea.
-- Diecinueve skills cargadas bajo demanda para ahorrar contexto y tokens.
+- Veinte skills cargadas bajo demanda para ahorrar contexto y tokens.
 - Una skill universal de ingeniería de software, independiente del lenguaje.
 - Adaptadores nativos para los seis proveedores soportados.
 - Modelos, esfuerzo y límites de trabajo configurados por rol y proveedor.
@@ -366,7 +366,7 @@ Use sólo los agentes necesarios. No todos los cambios requieren los siete.
 | Ciclo | `task-intake`, `implementation-loop`, `task-close` |
 | Fuentes y decisiones | `source-research`, `grounded-evidence`, `technical-spike`, `architecture-decision`, `decision-escalation` |
 | Ingeniería y QA | `software-engineering`, `test-strategy`, `systemic-defect-triage`, `web-dogfood` |
-| Revisión y unidades | `independent-review`, `judgment-day`, `chained-work`, `work-unit-commits` |
+| Revisión y unidades | `bounded-review`, `independent-review`, `judgment-day`, `chained-work`, `work-unit-commits` |
 | Colaboración | `github-issue`, `cognitive-doc-design` |
 | Autoría portable | `portable-skill-authoring` |
 

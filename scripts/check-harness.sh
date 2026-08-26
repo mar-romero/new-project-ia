@@ -63,9 +63,11 @@ required_files=(
   "docs/sources/contracts/NATIVE_AGENT_PARITY.md"
   "docs/sources/contracts/COPILOT_AND_PORTABLE_HARNESS.md"
   "docs/sources/contracts/ROLE_MODEL_CONFIGURATION.md"
+  "docs/sources/contracts/GENTLE_AI_BOUNDED_REVIEW.md"
   "docs/decisions/ADR-002-portable-role-contracts.md"
   "docs/decisions/ADR-003-native-agent-parity.md"
   "docs/decisions/ADR-004-role-model-routing.md"
+  "docs/decisions/ADR-005-portable-bounded-review.md"
   "specs/T-0005-native-agent-parity.md"
   "specs/T-0006-six-tool-harness-guide.md"
   "specs/T-0007-provider-model-routing.md"
@@ -120,6 +122,7 @@ required_roles=(
 
 required_skills=(
   "architecture-decision"
+  "bounded-review"
   "chained-work"
   "cognitive-doc-design"
   "decision-escalation"
@@ -974,6 +977,8 @@ for skill in "${required_skills[@]}"; do
   canonical_description="${canonical_description%$'\r'}"
   require_exact_line "$claude_skill" "$canonical_description"
 done
+
+require_exact_line ".agents/skills/bounded-review/SKILL.md" "Unproven claims are not defects and cannot authorize PASS."
 
 judgment_day_skill=".agents/skills/judgment-day/SKILL.md"
 require_exact_line "$judgment_day_skill" "- Treat Judge A and Judge B as ledger labels, not agent configuration names."
