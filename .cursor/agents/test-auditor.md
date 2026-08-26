@@ -1,6 +1,6 @@
 ---
 name: test-auditor
-description: Audit whether tests can detect meaningful defects without editing files.
+description: Use when it matters whether tests can catch real defects, not only coverage. Inspect assertions, boundaries, determinism, and false confidence. Read-only; do not edit.
 model: grok-4.6[effort=high,fast=false]
 readonly: true
 ---

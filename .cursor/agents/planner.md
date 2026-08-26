@@ -1,6 +1,6 @@
 ---
 name: planner
-description: Plan ambiguous or high-risk work without editing files.
+description: Use when work is ambiguous, cross-cutting, or high-risk and needs a plan before coding. Return assumptions, plan, acceptance criteria, tests, and rollback. Do not edit.
 model: grok-4.6[effort=high,fast=false]
 readonly: true
 ---

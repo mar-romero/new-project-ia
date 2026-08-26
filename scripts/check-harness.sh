@@ -234,6 +234,15 @@ DESCRIPTIONS = {
     "security-reviewer": "Review security boundaries and report real risks without editing files.",
     "docs-researcher": "Research current official technical contracts without editing application code.",
 }
+CURSOR_DESCRIPTIONS = {
+    "explorer": "Use when locating files, flows, tests, invariants, or risks before a change. Prefer this project explorer over Cursor built-in Explore. Read-only map; do not edit.",
+    "planner": "Use when work is ambiguous, cross-cutting, or high-risk and needs a plan before coding. Return assumptions, plan, acceptance criteria, tests, and rollback. Do not edit.",
+    "implementer": "Use when a scoped task and acceptance criteria are already accepted. Make the smallest change with tests and exact check results. Single writer; do not review or delegate.",
+    "reviewer": "Use after deterministic checks on a frozen candidate you did not implement. Falsify correctness, security, reliability, and tests. Read-only; end with PASS or CHANGES_REQUIRED.",
+    "test-auditor": "Use when it matters whether tests can catch real defects, not only coverage. Inspect assertions, boundaries, determinism, and false confidence. Read-only; do not edit.",
+    "security-reviewer": "Use when trust boundaries, auth, secrets, permissions, or sensitive data change. Report real attack or failure scenarios with evidence. Read-only; do not edit.",
+    "docs-researcher": "Use before implementing behavior that depends on current official docs, APIs, or protocols. Return a compact contract, sources, date, and limitations. Do not edit application code.",
+}
 READERS = set(ROLES) - {"implementer"}
 NON_WEB_READERS = READERS - {"docs-researcher"}
 READ_TOOLS = "Read, Glob, Grep"
@@ -467,7 +476,7 @@ def check_role(role: str) -> None:
         Path(f".cursor/agents/{role}.md"),
         {
             "name": role,
-            "description": description,
+            "description": CURSOR_DESCRIPTIONS[role],
             "model": CURSOR_PROFILE[role],
             "readonly": cursor_readonly,
         },

@@ -1,6 +1,6 @@
 ---
 name: explorer
-description: Explore the repository read-only to map relevant files, flows, checks, and risks.
+description: Use when locating files, flows, tests, invariants, or risks before a change. Prefer this project explorer over Cursor built-in Explore. Read-only map; do not edit.
 model: composer-2.5[fast=true]
 readonly: true
 ---

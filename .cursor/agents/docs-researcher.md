@@ -1,6 +1,6 @@
 ---
 name: docs-researcher
-description: Research current official technical contracts without editing application code.
+description: Use before implementing behavior that depends on current official docs, APIs, or protocols. Return a compact contract, sources, date, and limitations. Do not edit application code.
 model: grok-4.6[effort=medium,fast=false]
 readonly: true
 ---

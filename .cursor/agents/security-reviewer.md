@@ -1,6 +1,6 @@
 ---
 name: security-reviewer
-description: Review security boundaries and report real risks without editing files.
+description: Use when trust boundaries, auth, secrets, permissions, or sensitive data change. Report real attack or failure scenarios with evidence. Read-only; do not edit.
 model: grok-4.6[effort=xhigh,fast=false]
 readonly: true
 ---

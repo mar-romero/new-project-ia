@@ -68,7 +68,9 @@ canónica y su wrapper Claude, incluidos los añadidos después de clonar.
 | Gemini CLI | Comience el prompt con `@explorer <tarea>` | `/agents`, `/skills list`, `/skills reload` |
 | GitHub Copilot CLI | Seleccione con `/agent`, o `copilot --agent explorer --prompt "<tarea>"` | `/agent` y `/instructions` |
 
-Los nombres y descripciones son iguales para mejorar el enrutamiento, pero la
+Los nombres de rol son iguales en todos los proveedores. Las descripciones de
+Cursor añaden disparadores de cuándo usarlo, porque ese campo decide la
+delegación automática; el resto conserva el texto compacto compartido. La
 decisión automática del modelo puede variar. Para trabajo importante, nombre
 el rol de forma explícita.
 

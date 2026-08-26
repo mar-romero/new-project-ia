@@ -1,6 +1,6 @@
 ---
 name: implementer
-description: Implement one scoped task with evidence-backed checks and no nested delegation.
+description: Use when a scoped task and acceptance criteria are already accepted. Make the smallest change with tests and exact check results. Single writer; do not review or delegate.
 model: composer-2.5[fast=false]
 readonly: false
 ---
